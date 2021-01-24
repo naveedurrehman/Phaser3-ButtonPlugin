@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Phaser3-ButtonPlugin Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="full-screen" content="yes" />
+	<meta name="screen-orientation" content="portrait" />
+	<style type="text/css">
+		body {
+			background: #ADADAD;
+			padding: 0px;
+			margin: 0px;
+		}
+	</style>
+	<script src="phaser.min.js"></script>
+	<script src="ButtonPlugin.js"></script>
+	<script>
+
+
+		class sceneExample extends Phaser.Scene {
+			constructor() {
+				super('sceneExample');
+			}
+			preload() {
+				this.load.image('button1', 'assets/button1.png');
+				this.load.image('button2', 'assets/button2.png');
+			}
+			create() {
+
+				var imgbutton1 = this.add.image(250, 100, 'button1');
+				this.ButtonPlugin.addButton(
+					imgbutton1,			//The image to be converted into button
+					this.button1_click		//Function to call
+				);
+
+				var imgbutton2 = this.add.image(250, 300, 'button2');
+				this.ButtonPlugin.addButton(
+					imgbutton2,			//The image to be converted into button
+					this.button2_click,		//Function to call
+					{ data1: 100, data2: 'Hello!' }	//Arguments passed to the function
+				);
+
+			}
+			update() {
+			}
+
+			button1_click() {
+				console.log('You pressed button 1');
+			}
+
+			button2_click(arg) {
+				console.log('You pressed button 2', arg);
+			}
+
+		}
+
+		var config = {
+			type: Phaser.AUTO,
+			width: 500,
+			height: 500,
+			plugins: {
+				scene: [
+					//Loading the plugin
+					{ key: 'ButtonPlugin', plugin: ButtonPlugin, mapping: 'ButtonPlugin' }
+				]
+			},
+			scene: sceneExample,
+
+		};
+
+		game = new Phaser.Game(config);
+
+	</script>
+</head>
+
+<body>
+</body>
+
+</html>
